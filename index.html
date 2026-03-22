@@ -1,0 +1,168 @@
+html<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: black; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script>
+    // 👇 Pega tu código p5 aquí
+    let images = [];
+let currentImage = 0;
+let fadeAmount = 0;
+let showText = false;
+let textPhase = 0;
+const FADE_STEP = 8.5;
+const fullText = "for (let touch of touches)";
+let letters = [];
+
+function preload() {
+  images[0] = loadImage("01.png");
+  images[1] = loadImage("02.png");
+  images[2] = loadImage("03.png");
+  images[3] = loadImage("04.png");
+  images[4] = loadImage("05.png");
+  images[5] = loadImage("06.png");
+  images[6] = loadImage("07.png");
+  images[7] = loadImage("08.png");
+  images[8] = loadImage("09.png");
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textFont("monospace");
+  textSize(13);
+  textStyle(BOLD);
+  initLetters();
+}
+
+function initLetters() {
+  letters = [];
+  textFont("monospace");
+  textSize(13);
+  textStyle(BOLD);
+  let charW = textWidth("a");
+  let totalW = charW * fullText.length;
+  let startX = width / 2 - totalW / 2;
+  for (let i = 0; i < fullText.length; i++) {
+    letters.push({
+      char: fullText[i],
+      x: startX + i * charW,
+      y: height / 2,
+      ox: startX + i * charW,
+      oy: height / 2,
+      vx: 0,
+      vy: 0,
+      dispersed: false
+    });
+  }
+}
+
+function disperseLetters() {
+  for (let l of letters) {
+    if (!l.dispersed && random() < 0.3) {
+      l.vx = random(-4, 4);
+      l.vy = random(-6, 2);
+      l.dispersed = true;
+    }
+  }
+}
+
+function draw() {
+  background(220);
+
+  if (!showText && images.length > 0) {
+    image(images[currentImage], 0, 0, width, height);
+  }
+
+  if (fadeAmount > 0 && !showText) {
+    noStroke();
+    fill(255, fadeAmount);
+    rect(0, 0, width, height);
+  }
+
+  if (!showText) {
+    let textAlpha = map(fadeAmount, 0, 255, 255, 0);
+    noStroke();
+    textSize(13);
+    textStyle(BOLD);
+    textFont("monospace");
+    textAlign(LEFT, CENTER);
+    for (let l of letters) {
+      if (l.dispersed) {
+        l.x += l.vx;
+        l.y += l.vy;
+        l.vy += 0.2;
+      }
+      fill(0, textAlpha);
+      text(l.char, l.x, l.y);
+    }
+  }
+
+  if (fadeAmount >= 255 && !showText) {
+    showText = true;
+  }
+
+  if (showText) {
+    background(255);
+    fill(0);
+    textFont("monospace");
+    textWrap(WORD);
+    let lineH = 18;
+    let gap = 12;
+
+    textAlign(CENTER, TOP);
+    textStyle(BOLD);
+    textSize(9);
+
+    text("for (let touch of touches)", 0, height / 2 - lineH, width, lineH);
+
+    textStyle(NORMAL);
+
+    if (textPhase === 0) {
+      text("siente el tacto", 0, height / 2 + gap, width, lineH);
+    } else if (textPhase === 1) {
+      text("Apareciste,", 0, height / 2 + gap, width, lineH);
+    } else if (textPhase === 2) {
+      text("con la posibilidad de ser tocado.", 0, height / 2 + gap, width, lineH);
+    } else if (textPhase === 3) {
+      text("Yo también recuerdo la sensación del deseo", 0, height / 2 + gap, width, lineH);
+    } else if (textPhase === 4) {
+      text("mi mano buscando la tuya", 0, height / 2 + gap, width, lineH);
+    } else if (textPhase === 5) {
+      text("¿Qué gesto sostenían nuestras manos?", 0, height / 2 + gap, width, lineH);
+    }
+  }
+}
+
+function touchStarted() {
+  if (showText) {
+    if (textPhase < 5) {
+      textPhase++;
+    } else {
+      showText = false;
+      textPhase = 0;
+      fadeAmount = 0;
+      currentImage = 0;
+      initLetters();
+    }
+    return false;
+  }
+  fadeAmount = min(fadeAmount + FADE_STEP, 255);
+  currentImage = (currentImage + 1) % images.length;
+  disperseLetters();
+  return false;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  initLetters();
+}
+  </script>
+</body>
+</html>
