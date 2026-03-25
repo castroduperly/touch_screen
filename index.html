@@ -12,7 +12,7 @@ html<!DOCTYPE html>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script>
     // 👇 Pega tu código p5 aquí
-    let images = [];
+   let images = [];
 let currentImage = 0;
 let fadeAmount = 0;
 let showText = false;
@@ -125,18 +125,28 @@ function draw() {
     textStyle(NORMAL);
 
     if (textPhase === 0) {
-      text("siente el tacto", 0, height / 2 + gap, width, lineH);
-    } else if (textPhase === 1) {
-      text("Apareciste,", 0, height / 2 + gap, width, lineH);
-    } else if (textPhase === 2) {
-      text("con la posibilidad de ser tocado.", 0, height / 2 + gap, width, lineH);
-    } else if (textPhase === 3) {
-      text("Yo también recuerdo la sensación del deseo", 0, height / 2 + gap, width, lineH);
-    } else if (textPhase === 4) {
-      text("mi mano buscando la tuya", 0, height / 2 + gap, width, lineH);
-    } else if (textPhase === 5) {
-      text("¿Qué gesto sostenían nuestras manos?", 0, height / 2 + gap, width, lineH);
-    }
+  text("el gesto que sostenían tus manos", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 1) {
+  text("con la posibilidad de ser tocados.", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 2) {
+  text("Mi mano buscando la tuya", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 3) {
+  text("con-tacto.", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 4) {
+  text("La preposición (con): estar en relación, junto a", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 5) {
+  text("Sostener el entre que se abre contigo,", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 6) {
+  text("dejar que el contacto suceda", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 7) {
+  text("en relación contigo.", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 8) {
+  text("Mi mano buscando la tuya", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 9) {
+  text("touch touching itslef", 0, height / 2 + gap, width, lineH);
+} else if (textPhase === 10) {
+  text("ser contenida en tu superficie", 0, height / 2 + gap, width, lineH);
+}
   }
 }
 
